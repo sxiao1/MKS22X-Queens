@@ -37,7 +37,7 @@ public class QueenBoard{
     return newstr;
   }
   public boolean solve(){
-    if(numQueens >= boardSize){
+    if(numQueens == boardSize){
       return true;
     }
     else{
@@ -60,8 +60,11 @@ public class QueenBoard{
           board[row + 1][col + 1] = board[row + 1][col + 1] -1;
         }
       }
-
+      numQueens ++;
       boardAlt(row + 1, 0);
+    }
+    else{
+      boardAlt(row, col + 1);
     }
 
   }
