@@ -1,7 +1,12 @@
 public class QueenBoard{
   private int[][] board;
+  private int numQueens = 0;
+  private int boardSize;
+  private int row = 0;
+  private int col = 0;
   public QueenBoard(int size){
     board = new int[size][size];
+    boardSize = size;
     for(int x = 0; x < board.length; x ++){
       for(int y = 0; y < board[x].length; y++){
         board[x][y] = 0;
@@ -21,14 +26,39 @@ public class QueenBoard{
     for(int x = 0; x < board.length; x++){
       for(int y = 0; y < board[x].length; y++){
         if(board[x][y] == 0){
-          newstr += "_";
+          newstr += "_ ";
         }
         else{
-          newstr += "Q";
+          newstr += "Q ";
         }
       }
+      newstr += "\n";
     }
     return newstr;
+  }
+  public boolean solve(){
+    if(numQueens >= boardSize){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+  public void boardAlt(int row, int col){
+    if(row < board.length && col > board[row].length){
+      boardAlt(row - 1, 0);
+    }
+    if(board[row][col] == 0){
+      board[row][col] = 1;
+      for(int x = 0; x < board.length; x ++){
+        if(board[x][0] != 1){
+          board[x][0] = board[x][0] - 1;
+        }
+      }
+
+      boardAlt(row + 1, 0);
+    }
+
   }
 
 }
