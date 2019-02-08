@@ -50,9 +50,14 @@ public class QueenBoard{
     }
     if(board[row][col] == 0){
       board[row][col] = 1;
-      for(int x = 0; x < board.length; x ++){
-        if(board[x][0] != 1){
-          board[x][0] = board[x][0] - 1;
+      for(int x = 0; x < board.length; x ++){ //marking the across row off limits
+        if(board[x][col] != 1){
+          board[x][col] = board[x][col] - 1;
+        }
+      }
+      for(int x = row; x < board.length; x++){ //marking diagonally to the right
+        for(int y = col; y < board[x].length; y++){
+          board[row + 1][col + 1] = board[row + 1][col + 1] -1;
         }
       }
 
