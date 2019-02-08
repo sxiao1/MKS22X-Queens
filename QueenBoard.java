@@ -48,7 +48,7 @@ public class QueenBoard{
     if(row < board.length && col > board[row].length){
       boardAlt(row - 1, 0);
     }
-    if(board[row][col] == 0){
+    if(row < board.length && col < board[0].length && board[row][col] == 0){
       board[row][col] = 1;
       for(int x = 0; x < board.length; x ++){ //marking the across row off limits
         if(board[x][col] != 1){
