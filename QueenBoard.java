@@ -47,7 +47,7 @@ public class QueenBoard{
   private void demark(int row, int col, int shift){
     int x = row;
     int y = col;
-    while(row < board.length && row >= 0 && col < board[row].length && col >= 0){
+    while(x < board.length && x >= 0 && y < board[row].length && y >= 0){
       board[x][y] --;
       x++;
       y = y + shift;
