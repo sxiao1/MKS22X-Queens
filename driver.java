@@ -13,6 +13,7 @@ public class driver{
     System.out.println(newboard3.solve());
     System.out.println(newboard3);
     QueenBoard newboard4 = new QueenBoard(7);
+    System.out.println(newboard4.countSolutions());
     System.out.println(newboard4.solve());
     System.out.println(newboard4);
   }
