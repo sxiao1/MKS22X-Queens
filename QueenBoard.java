@@ -1,35 +1,66 @@
 public class QueenBoard{
   private int[][] board;
   private int numQueens = 0;
-  private int boardSize;
-  private int row = 0;
-  private int col = 0;
   public QueenBoard(int size){
-    board = new int[size][size];
-    boardSize = size;
-    for(int x = 0; x < board.length; x ++){
-      for(int y = 0; y < board[x].length; y++){
-        board[x][y] = 0;
+    if(size >= 0){
+      board = new int[size][size];
+      for(int x = 0; x < board.length; x ++){
+        for(int y = 0; y < board[x].length; y++){
+          board[x][y] = 0;
+        }
       }
     }
+    else {
+		throw new NumberFormatException();
+	}
   }
   private boolean addQueen(int r, int c){
-    board[r][c] = 1;
-    return true;
+    if(board[r][c] == 0){
+      board[r][c] = -1;
+      mark(r,c, 0);
+      mark(r, c, 1);
+      mark(r,c, -1);
+      return true;
+    }
+    return false;
   }
   private boolean removeQueen(int r, int c){
-    board[r][c] = 0;
-    return true;
+    if(board[r][c] == -1){
+      board[r][c] = 0;
+      demark(r,c,0);
+      demark(r,c,1);
+      demark(r,c,-1);
+      return true;
+    }
+    return false;
+  }
+  private void mark(int row, int col, int shift){
+    int x = row;
+    int y = col;
+    while(row < board.length && col < board[row].length && col >= 0){
+      board[x][y] = board[x][y] + 1;
+      x++;
+      y = y + shift;
+    }
+  }
+  private void demark(int row, int col, int shift){
+    int x = row;
+    int y = col;
+    while(row < board.length && col < board[row].length && col >= 0){
+      board[x][y] = board[x][y] - 1;
+      x++;
+      y = y + shift;
+    }
   }
   public String toString(){
     String newstr = "";
     for(int x = 0; x < board.length; x++){
       for(int y = 0; y < board[x].length; y++){
-        if(board[x][y] == 0){
-          newstr += "_ ";
+        if(board[x][y] == -1){
+          newstr += "Q ";
         }
         else{
-          newstr += "Q ";
+          newstr += "_";
         }
       }
       newstr += "\n";
@@ -37,35 +68,23 @@ public class QueenBoard{
     return newstr;
   }
   public boolean solve(){
-    if(numQueens == boardSize){
+    int queensNeeded = 0;
+    if(board.length == 2){
+      queensNeeded = 1;
+    }
+    if(board.length == 3){
+      queensNeeded = 2;
+    }
+    else{
+      queensNeeded = board.length;
+    }
+    boardAlt(0, 0, queensNeeded);
+    if(queensNeeded == numQueens){
       return true;
     }
-    else{
-      return false;
-    }
+    return false;
   }
-  public void boardAlt(int row, int col){
-    if(row < board.length && col > board[row].length){
-      boardAlt(row - 1, 0);
-    }
-    if(row < board.length && col < board[0].length && board[row][col] == 0){
-      board[row][col] = 1;
-      for(int x = 0; x < board.length; x ++){ //marking the across row off limits
-        if(board[x][col] != 1){
-          board[x][col] = board[x][col] - 1;
-        }
-      }
-      for(int x = row; x < board.length; x++){ //marking diagonally to the right
-        for(int y = col; y < board[x].length; y++){
-          board[row + 1][col + 1] = board[row + 1][col + 1] -1;
-        }
-      }
-      numQueens ++;
-      boardAlt(row + 1, 0);
-    }
-    else{
-      boardAlt(row, col + 1);
-    }
+  public void boardAlt(int row, int col, int target){
 
   }
 
