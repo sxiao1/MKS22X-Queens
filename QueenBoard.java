@@ -16,20 +16,20 @@ public class QueenBoard{
   }
   private boolean addQueen(int r, int c){
     if(board[r][c] == 0){
-      board[r][c] = -1;
-      mark(r,c, 0);
-      mark(r, c, 1);
+      mark(r ,c, 0);
+      mark(r,c,1);
       mark(r,c, -1);
+      board[r][c] = -1;
       return true;
     }
     return false;
   }
   private boolean removeQueen(int r, int c){
     if(board[r][c] == -1){
-      board[r][c] = 0;
       demark(r,c,0);
       demark(r,c,1);
-      demark(r,c,-1);
+      demark(r,c, -1);
+      board[r][c] = 0;
       return true;
     }
     return false;
@@ -37,17 +37,18 @@ public class QueenBoard{
   private void mark(int row, int col, int shift){
     int x = row;
     int y = col;
-    while(row < board.length && col < board[row].length && col >= 0){
-      board[x][y] = board[x][y] + 1;
-      x++;
-      y = y + shift;
+    while(x < board.length && x >= 0 && y < board[row].length && y >= 0){
+        board[x][y] ++;
+        //System.out.println( x + "," + y + " " + board[x][y]);
+        x++;
+        y = y + shift;
     }
   }
   private void demark(int row, int col, int shift){
     int x = row;
     int y = col;
-    while(row < board.length && col < board[row].length && col >= 0){
-      board[x][y] = board[x][y] - 1;
+    while(row < board.length && row >= 0 && col < board[row].length && col >= 0){
+      board[x][y] --;
       x++;
       y = y + shift;
     }
@@ -56,11 +57,11 @@ public class QueenBoard{
     String newstr = "";
     for(int x = 0; x < board.length; x++){
       for(int y = 0; y < board[x].length; y++){
-        if(board[x][y] == -1){
-          newstr += "Q ";
+        if(board[x][y] >= 0){
+          newstr += "_ ";
         }
         else{
-          newstr += "_";
+          newstr += "Q ";
         }
       }
       newstr += "\n";
@@ -78,14 +79,23 @@ public class QueenBoard{
     else{
       queensNeeded = board.length;
     }
-    boardAlt(0, 0, queensNeeded);
-    if(queensNeeded == numQueens){
+    return boardAlt(0, 0, 0, queensNeeded);
+  }
+  public boolean boardAlt(int row, int col, int level, int target){
+    if(level == target){
       return true;
     }
+    for(int i = 0; i < board[row].length; i++){
+      if(addQueen(row, i)){
+        if(boardAlt(row + 1, i, level  + 1, target)){
+          return true;
+        }
+        else{
+          removeQueen(row, i);
+        }
+      }
+    }
     return false;
-  }
-  public void boardAlt(int row, int col, int target){
-
   }
 
 }
